@@ -16,13 +16,13 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfig {
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        // L1 first layer
+        // L1 first layer, access memory
         CaffeineCacheManager caffeine = new CaffeineCacheManager();
         caffeine.setCaffeine(Caffeine.newBuilder()
                 .expireAfterWrite(10, TimeUnit.MINUTES)
                 .maximumSize(1000));
 
-        //L2 second layer
+        //L2 second layer, access Redi
         RedisCacheManager redis = RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
                         .entryTtl(Duration.ofMinutes(30)))
