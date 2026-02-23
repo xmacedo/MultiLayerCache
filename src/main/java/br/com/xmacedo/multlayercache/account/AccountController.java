@@ -19,13 +19,15 @@ public class AccountController {
 
     @PostMapping("/{accountId}/balance")
     public ResponseEntity<?> getAccountBalance(@PathVariable String accountId) {
+        long start = System.currentTimeMillis();
         AccountDTO accountDTO = accountService.getAccountBalance(accountId);
-
+        long end = System.currentTimeMillis();
+        System.out.println("Response time: " + (end - start) + "ms");
         return new ResponseEntity(accountDTO, HttpStatus.OK);
     }
 
     @PutMapping("/{accountId}/balance")
-    public ResponseEntity<?> updateAccountBalance(@PathVariable String accountId, @RequestBody BigDecimal newBalance){
+    public ResponseEntity<?> updateAccountBalance(@PathVariable String accountId, @RequestBody BigDecimal newBalance) {
 
         accountService.updateAccountBalance(accountId, newBalance);
 
